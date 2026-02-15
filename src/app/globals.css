@@ -1,0 +1,44 @@
+﻿@import "tailwindcss";
+
+:root {
+  --sand: #f4f0e8;
+  --cloud: #ffffff;
+  --ink: #111827;
+  --forest: #10332f;
+  --ember: #eb6a2a;
+  --citrus: #f2b84b;
+  --stone: #7a6f67;
+  --mist: #e6ece9;
+  --sky: #cfe3ff;
+  --night: #0b1516;
+}
+
+@theme inline {
+  --color-sand: var(--sand);
+  --color-cloud: var(--cloud);
+  --color-ink: var(--ink);
+  --color-forest: var(--forest);
+  --color-ember: var(--ember);
+  --color-citrus: var(--citrus);
+  --color-stone: var(--stone);
+  --color-mist: var(--mist);
+  --color-sky: var(--sky);
+  --color-night: var(--night);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-bebas);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--sand);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--citrus);
+  color: var(--night);
+}
