@@ -156,10 +156,13 @@ export default function RegistrationForm() {
       <Script src="https://js.paystack.co/v1/inline.js" strategy="afterInteractive" />
       <form
         onSubmit={handleSubmit}
-        className="space-y-5 rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.12)]"
+        className="relative space-y-5 overflow-hidden rounded-[28px] border border-white/40 bg-gradient-to-br from-white/95 via-white/90 to-sand/80 p-8 shadow-[0_30px_80px_rgba(15,23,42,0.18)] backdrop-blur-xl"
       >
         <div>
-          <label className="text-sm font-semibold text-stone" htmlFor="fullName">
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="fullName"
+          >
             Player full name
           </label>
           <input
@@ -168,13 +171,16 @@ export default function RegistrationForm() {
             value={formData.fullName}
             onChange={handleChange}
             required
-            className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink placeholder:text-stone/60 focus:border-ember focus:outline-none"
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
             placeholder="Jordan Matthews"
           />
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <label className="text-sm font-semibold text-stone" htmlFor="email">
+            <label
+              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -184,12 +190,15 @@ export default function RegistrationForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink placeholder:text-stone/60 focus:border-ember focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
               placeholder="player@email.com"
             />
           </div>
           <div>
-            <label className="text-sm font-semibold text-stone" htmlFor="phone">
+            <label
+              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+              htmlFor="phone"
+            >
               Phone
             </label>
             <input
@@ -199,14 +208,17 @@ export default function RegistrationForm() {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink placeholder:text-stone/60 focus:border-ember focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
               placeholder="(555) 111-2244"
             />
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <label className="text-sm font-semibold text-stone" htmlFor="age">
+            <label
+              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+              htmlFor="age"
+            >
               Player age
             </label>
             <input
@@ -218,12 +230,15 @@ export default function RegistrationForm() {
               value={formData.age}
               onChange={handleChange}
               required
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink placeholder:text-stone/60 focus:border-ember focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
               placeholder="12"
             />
           </div>
           <div>
-            <label className="text-sm font-semibold text-stone" htmlFor="experience">
+            <label
+              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+              htmlFor="experience"
+            >
               Experience level
             </label>
             <select
@@ -231,7 +246,7 @@ export default function RegistrationForm() {
               name="experience"
               value={formData.experience}
               onChange={handleChange}
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink focus:border-ember focus:outline-none"
+              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
             >
               <option>Beginner</option>
               <option>Intermediate</option>
@@ -240,7 +255,10 @@ export default function RegistrationForm() {
           </div>
         </div>
         <div>
-          <label className="text-sm font-semibold text-stone" htmlFor="guardianName">
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="guardianName"
+          >
             Guardian / Emergency contact
           </label>
           <input
@@ -248,12 +266,15 @@ export default function RegistrationForm() {
             name="guardianName"
             value={formData.guardianName}
             onChange={handleChange}
-            className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink placeholder:text-stone/60 focus:border-ember focus:outline-none"
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
             placeholder="Avery Matthews"
           />
         </div>
         <div>
-          <label className="text-sm font-semibold text-stone" htmlFor="notes">
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="notes"
+          >
             Special notes or goals
           </label>
           <textarea
@@ -262,14 +283,14 @@ export default function RegistrationForm() {
             value={formData.notes}
             onChange={handleChange}
             rows={4}
-            className="mt-2 w-full rounded-2xl border border-stone/20 bg-sand px-4 py-3 text-ink placeholder:text-stone/60 focus:border-ember focus:outline-none"
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
             placeholder="Tell us what you want to improve this summer."
           />
         </div>
         <button
           type="submit"
           disabled={status === "loading"}
-          className="w-full rounded-full bg-forest px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-[#0b2622] disabled:cursor-not-allowed disabled:opacity-70"
+          className="w-full rounded-full bg-forest px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0b2622] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {status === "loading" ? "Opening Paystack..." : "Pay & Register"}
         </button>

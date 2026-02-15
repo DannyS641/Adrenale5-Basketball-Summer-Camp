@@ -14,7 +14,7 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: "Elevation Hoops Camp",
+  title: "Adrenale 5 Basketball Summer Camp",
   description:
     "A 7-day basketball summer camp focused on skill, mindset, and elite-level reps.",
 };

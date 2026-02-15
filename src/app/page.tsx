@@ -135,13 +135,13 @@ const testimonials = [
   {
     quote:
       "The detail was unreal. My footwork and shot prep changed in one week.",
-    name: "Maya L.",
+    name: "Lebron J.",
     detail: "2025 Camp MVP",
   },
   {
     quote:
       "Coaches actually teach the why behind every rep. Best camp experience.",
-    name: "Zion K.",
+    name: "Kelvin D.",
     detail: "Varsity Starter",
   },
 ];
@@ -169,7 +169,6 @@ export default function Home() {
 
         <nav className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 pt-6 text-sm uppercase tracking-[0.3em]">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-citrus" />
             <span className="font-display text-xl tracking-[0.4em]">
               ADRENALE 5
             </span>
@@ -237,7 +236,10 @@ export default function Home() {
       </header>
 
       <main className="relative z-10">
-        <section id="highlights" className="mx-auto max-w-6xl px-6 py-12 md:py-20">
+        <section
+          id="highlights"
+          className="mx-auto max-w-6xl px-6 py-12 md:py-20"
+        >
           <div className="rounded-[36px] bg-white/55 px-6 py-8 shadow-[0_25px_60px_rgba(15,23,42,0.18)] backdrop-blur-2xl ring-1 ring-white/50 md:px-10 md:py-12">
             <div className="text-center space-y-3">
               <p className="text-xs uppercase tracking-[0.5em] text-ember">
@@ -527,8 +529,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-
-
