@@ -64,18 +64,19 @@ const schedule = [
   },
   {
     day: "Day 8",
-    title: "Showcase + Celebration",
-    detail: "Family showcase, awards, and next-step development plans.",
+    title: "Strength + Conditioning",
+    detail: "Explosive lifts, core work, and mobility circuits with trainers.",
   },
   {
     day: "Day 9",
-    title: "Showcase + Celebration",
-    detail: "Family showcase, awards, and next-step development plans.",
+    title: "Skill Lab + Scrimmage",
+    detail: "Position-specific skill labs followed by structured live games.",
   },
   {
     day: "Day 10",
-    title: "Showcase + Celebration",
-    detail: "Family showcase, awards, and next-step development plans.",
+    title: "Recovery + Evaluation",
+    detail:
+      "Recovery sessions, film breakdown, and one-on-one progress reviews.",
   },
 ];
 
