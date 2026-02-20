@@ -21,7 +21,7 @@ const highlights = [
       "Daily scrimmages with officiating, stat tracking, and player development notes.",
   },
   {
-    title: "Attractions + Landmarks",
+    title: "Attractions & Landmarks",
     description: "NBA live games",
   },
 ];
@@ -59,6 +59,21 @@ const schedule = [
   },
   {
     day: "Day 7",
+    title: "Showcase + Celebration",
+    detail: "Family showcase, awards, and next-step development plans.",
+  },
+  {
+    day: "Day 8",
+    title: "Showcase + Celebration",
+    detail: "Family showcase, awards, and next-step development plans.",
+  },
+  {
+    day: "Day 9",
+    title: "Showcase + Celebration",
+    detail: "Family showcase, awards, and next-step development plans.",
+  },
+  {
+    day: "Day 10",
     title: "Showcase + Celebration",
     detail: "Family showcase, awards, and next-step development plans.",
   },
@@ -111,19 +126,19 @@ const essentials = [
 
 const coaches = [
   {
-    name: "Coach L. Brooks",
-    role: "Former G-League Guard",
+    name: "Coach Eric Glenn",
+    role: "NBA Shooting Coach",
     image:
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
   },
   {
-    name: "Coach A. Sterling",
-    role: "WNBA Skills Director",
+    name: "Coach Osaris Nulls",
+    role: "Adrenale 5 Head Coach",
     image:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=800&q=80",
   },
   {
-    name: "Coach J. Perez",
+    name: "Coach Poncho Hodges",
     role: "NBA Player Development",
     image:
       "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=800&q=80",
@@ -197,13 +212,13 @@ export default function Home() {
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-8 px-6 pb-20 pt-16 md:gap-10 md:pb-32 md:pt-32">
           <div className="max-w-2xl space-y-5 md:space-y-6">
             <p className="text-xs uppercase tracking-[0.5em] text-citrus">
-              7-Day Basketball Summer Camp
+              10-Day Basketball Summer Camp
             </p>
             <h1 className="font-display text-4xl uppercase tracking-[0.1em] sm:text-5xl md:text-7xl">
               Discover Your Next Level
             </h1>
             <p className="text-base text-white/80 md:text-lg">
-              A high-intensity training week for athletes ages 10-17. Skill
+              A high-intensity training week for athletes ages 13-18. Skill
               labs, live games, film rooms, and recovery. All under one roof.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -275,7 +290,7 @@ export default function Home() {
                   Day by day
                 </p>
                 <h2 className="font-display text-3xl uppercase tracking-[0.1em] md:text-4xl">
-                  7-Day Training Journey
+                  10-Day Global Experience
                 </h2>
                 <p className="text-sm text-stone md:text-base">
                   Every day mixes skill sessions, competitive reps, and film
@@ -485,9 +500,9 @@ export default function Home() {
                 <p className="text-sm uppercase tracking-[0.3em] text-citrus">
                   Camp Package
                 </p>
-                <p className="mt-3 text-3xl font-display uppercase tracking-[0.08em]">
+                {/* <p className="mt-3 text-3xl font-display uppercase tracking-[0.08em]">
                   ₦800,000.00
-                </p>
+                </p> */}
                 <p className="text-white/70">
                   Includes training kit, meals, and nightly recovery sessions.
                 </p>

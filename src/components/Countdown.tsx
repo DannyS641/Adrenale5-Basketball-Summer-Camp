@@ -49,7 +49,7 @@ export default function Countdown() {
       <span className="font-semibold tracking-[0.2em] uppercase text-citrus">
         Next Session
       </span>
-      <span className="text-white/90">July 20 - 26, 2026</span>
+      <span className="text-white/90">July 10 - 19, 2026</span>
       <span className="h-1 w-1 rounded-full bg-white/60" />
       <span className="font-semibold">{days} days away</span>
     </div>

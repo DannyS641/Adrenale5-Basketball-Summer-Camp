@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 
 const STAT_DATA = [
-  { label: "Athletes Trained", value: 10, suffix: "+" },
+  { label: "Athletes Trained", value: 500, suffix: "+" },
   { label: "Pro-Level Coaches", value: 12, suffix: "" },
   { label: "Skill Labs", value: 35, suffix: "" },
-  { label: "Daily Film Minutes", value: 45, suffix: "+" },
+  { label: "Daily Film Minutes", value: 30, suffix: "+" },
 ];
 
 export default function StatCounters() {
