@@ -11,9 +11,9 @@ const highlights = [
       "Two-a-day sessions focused on shooting mechanics, footwork, and game-speed finishing.",
   },
   {
-    title: "Film + Mindset",
+    title: "Film, Mindset, Recovery & Nutrition",
     description:
-      "Breakdown rooms, mental reps, and in-game decision training led by pro coaches.",
+      "Breakdown rooms, mental reps, and in-game decision training led by pro coaches. Mobility labs, recovery baths, and athlete fuel planning built into the week.",
   },
   {
     title: "Live Competition",
@@ -21,9 +21,8 @@ const highlights = [
       "Daily scrimmages with officiating, stat tracking, and player development notes.",
   },
   {
-    title: "Recovery + Nutrition",
-    description:
-      "Mobility labs, recovery baths, and athlete fuel planning built into the week.",
+    title: "Attractions + Landmarks",
+    description: "NBA live games",
   },
 ];
 
@@ -135,7 +134,7 @@ const testimonials = [
   {
     quote:
       "The detail was unreal. My footwork and shot prep changed in one week.",
-    name: "Lebron J.",
+    name: "Wilson J.",
     detail: "2025 Camp MVP",
   },
   {
