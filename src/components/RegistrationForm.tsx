@@ -1,40 +1,17 @@
-﻿"use client";
+"use client";
 
 import type { ChangeEvent, FormEvent } from "react";
-import Script from "next/script";
 import { useState } from "react";
-
-const CAMP_PRICE_CENTS = 80000000;
-const CAMP_CURRENCY = "NGN";
-
-type PaystackResponse = {
-  reference: string;
-};
-
-type PaystackSetup = (config: {
-  key: string;
-  email: string;
-  amount: number;
-  currency?: string;
-  ref?: string;
-  metadata?: Record<string, string>;
-  callback: (response: PaystackResponse) => void;
-  onClose: () => void;
-}) => { openIframe: () => void };
-
-declare global {
-  interface Window {
-    PaystackPop?: { setup: PaystackSetup };
-  }
-}
 
 const initialState = {
   fullName: "",
   email: "",
   phone: "",
   age: "",
+  gradeLevel: "",
   experience: "Intermediate",
   guardianName: "",
+  emergencyContactName: "",
   notes: "",
 };
 
@@ -60,10 +37,6 @@ export default function RegistrationForm() {
     setMessage("");
 
     try {
-      if (typeof window === "undefined") {
-        return;
-      }
-
       const response = await fetch("/api/registrations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -79,70 +52,17 @@ export default function RegistrationForm() {
         throw new Error(data?.error ?? "Something went wrong. Try again.");
       }
 
-      const paystackKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
-
-      if (!paystackKey) {
-        throw new Error("Paystack public key is missing.");
+      setStatus("success");
+      if (data?.emailSent === false) {
+        setMessage(
+          "Registration received! We'll follow up shortly with next steps.",
+        );
+      } else {
+        setMessage(
+          "Registration received! Check your email for confirmation and pricing.",
+        );
       }
-
-      if (!window.PaystackPop?.setup) {
-        throw new Error("Payment library did not load. Try again.");
-      }
-
-      const reference = `camp_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
-
-      const handler = window.PaystackPop.setup({
-        key: paystackKey,
-        email: formData.email,
-        amount: CAMP_PRICE_CENTS,
-        currency: CAMP_CURRENCY,
-        ref: reference,
-        metadata: {
-          registrationId: data?.id ?? "",
-          fullName: formData.fullName,
-          phone: formData.phone,
-          experience: formData.experience,
-        },
-        callback: (paystackResponse) => {
-          void (async () => {
-            try {
-              const verifyResponse = await fetch("/api/paystack/verify", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  reference: paystackResponse.reference,
-                  registrationId: data?.id ?? "",
-                }),
-              });
-
-              const verifyData = await verifyResponse.json();
-
-              if (!verifyResponse.ok || verifyData?.status !== "success") {
-                throw new Error(
-                  verifyData?.error ?? "Payment could not be verified.",
-                );
-              }
-
-              setStatus("success");
-              setMessage("Payment successful! We'll follow up within 24 hours.");
-              setFormData(initialState);
-            } catch (error) {
-              const messageText =
-                error instanceof Error
-                  ? error.message
-                  : "Payment verification failed.";
-              setStatus("error");
-              setMessage(messageText);
-            }
-          })();
-        },
-        onClose: () => {
-          setStatus("idle");
-          setMessage("Payment was canceled.");
-        },
-      });
-
-      handler.openIframe();
+      setFormData(initialState);
     } catch (error) {
       const messageText =
         error instanceof Error ? error.message : "Unable to submit right now.";
@@ -152,114 +72,130 @@ export default function RegistrationForm() {
   };
 
   return (
-    <>
-      <Script src="https://js.paystack.co/v1/inline.js" strategy="afterInteractive" />
-      <form
-        onSubmit={handleSubmit}
-        className="relative space-y-5 overflow-hidden rounded-[28px] border border-white/40 bg-gradient-to-br from-white/95 via-white/90 to-sand/80 p-8 shadow-[0_30px_80px_rgba(15,23,42,0.18)] backdrop-blur-xl"
-      >
+    <form
+      onSubmit={handleSubmit}
+      className="relative space-y-5 overflow-hidden rounded-[28px] border border-white/40 bg-gradient-to-br from-white/95 via-white/90 to-sand/80 p-8 shadow-[0_30px_80px_rgba(15,23,42,0.18)] backdrop-blur-xl"
+    >
+      <div>
+        <label
+          className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+          htmlFor="fullName"
+        >
+          Player full name
+        </label>
+        <input
+          id="fullName"
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleChange}
+          required
+          className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+          placeholder="Jordan Matthews"
+        />
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
         <div>
           <label
             className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
-            htmlFor="fullName"
+            htmlFor="email"
           >
-            Player full name
+            Email
           </label>
           <input
-            id="fullName"
-            name="fullName"
-            value={formData.fullName}
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
             onChange={handleChange}
             required
             className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-            placeholder="Jordan Matthews"
+            placeholder="player@email.com"
           />
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <label
-              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-              placeholder="player@email.com"
-            />
-          </div>
-          <div>
-            <label
-              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
-              htmlFor="phone"
-            >
-              Phone
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-              placeholder="(555) 111-2244"
-            />
-          </div>
+        <div>
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="phone"
+          >
+            Phone
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+            placeholder="(555) 111-2244"
+          />
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <label
-              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
-              htmlFor="age"
-            >
-              Player age
-            </label>
-            <input
-              id="age"
-              name="age"
-              type="number"
-              min={8}
-              max={18}
-              value={formData.age}
-              onChange={handleChange}
-              required
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-              placeholder="12"
-            />
-          </div>
-          <div>
-            <label
-              className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
-              htmlFor="experience"
-            >
-              Experience level
-            </label>
-            <select
-              id="experience"
-              name="experience"
-              value={formData.experience}
-              onChange={handleChange}
-              className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-            >
-              <option>Beginner</option>
-              <option>Intermediate</option>
-              <option>Advanced</option>
-            </select>
-          </div>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="age"
+          >
+            Player age
+          </label>
+          <input
+            id="age"
+            name="age"
+            type="number"
+            min={8}
+            max={18}
+            value={formData.age}
+            onChange={handleChange}
+            required
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+            placeholder="12"
+          />
+        </div>
+        <div>
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="gradeLevel"
+          >
+            Grade level
+          </label>
+          <input
+            id="gradeLevel"
+            name="gradeLevel"
+            value={formData.gradeLevel}
+            onChange={handleChange}
+            required
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+            placeholder="10th Grade"
+          />
+        </div>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <label
+            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+            htmlFor="experience"
+          >
+            Experience level
+          </label>
+          <select
+            id="experience"
+            name="experience"
+            value={formData.experience}
+            onChange={handleChange}
+            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+          >
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
         </div>
         <div>
           <label
             className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
             htmlFor="guardianName"
           >
-            Guardian / Emergency contact
+            Guardian name
           </label>
           <input
             id="guardianName"
@@ -270,41 +206,56 @@ export default function RegistrationForm() {
             placeholder="Avery Matthews"
           />
         </div>
-        <div>
-          <label
-            className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
-            htmlFor="notes"
-          >
-            Special notes or goals
-          </label>
-          <textarea
-            id="notes"
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            rows={4}
-            className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-            placeholder="Tell us what you want to improve this summer."
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          className="w-full rounded-full bg-forest px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0b2622] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+      </div>
+      <div>
+        <label
+          className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+          htmlFor="emergencyContactName"
         >
-          {status === "loading" ? "Opening Paystack..." : "Pay & Register"}
-        </button>
-        <p className="text-xs text-stone">Secure payment handled by Paystack.</p>
-        {message ? (
-          <p
-            className={`text-sm ${
-              status === "success" ? "text-forest" : "text-ember"
-            }`}
-          >
-            {message}
-          </p>
-        ) : null}
-      </form>
-    </>
+          Emergency contact
+        </label>
+        <input
+          id="emergencyContactName"
+          name="emergencyContactName"
+          value={formData.emergencyContactName}
+          onChange={handleChange}
+          className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+          placeholder="Name + phone"
+        />
+      </div>
+      <div>
+        <label
+          className="text-xs font-semibold uppercase tracking-[0.3em] text-stone"
+          htmlFor="notes"
+        >
+          Special notes or goals
+        </label>
+        <textarea
+          id="notes"
+          name="notes"
+          value={formData.notes}
+          onChange={handleChange}
+          rows={4}
+          className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
+          placeholder="Tell us what you want to improve this summer."
+        />
+      </div>
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="w-full rounded-full bg-forest px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0b2622] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+      >
+        {status === "loading" ? "Submitting..." : "Submit Registration"}
+      </button>
+      {message ? (
+        <p
+          className={`text-sm ${
+            status === "success" ? "text-forest" : "text-ember"
+          }`}
+        >
+          {message}
+        </p>
+      ) : null}
+    </form>
   );
 }

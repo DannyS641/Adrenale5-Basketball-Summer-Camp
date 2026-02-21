@@ -494,16 +494,13 @@ export default function Home() {
                 Register for Camp
               </h2>
               <p className="text-white/75">
-                Submit the form and our team will confirm placement, payment
-                options, and daily logistics.
+                Submit the form and our team will confirm placement and daily
+                logistics.
               </p>
               <div className="rounded-3xl border border-white/20 bg-white/10 p-6">
                 <p className="text-sm uppercase tracking-[0.3em] text-citrus">
                   Camp Package
                 </p>
-                {/* <p className="mt-3 text-3xl font-display uppercase tracking-[0.08em]">
-                  ₦800,000.00
-                </p> */}
                 <p className="text-white/70">
                   Includes training kit, meals, and nightly recovery sessions.
                 </p>
