@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import emailjs from "@emailjs/nodejs";
 
 const TABLE_NAME = "camp_registrations";
 const CAMP_PRICE = "$15,000";
-const CAMP_DATES = "July 20–26, 2026";
+const CAMP_DATES = "July 20-26, 2026";
 const CAMP_LOCATION = "Los Angeles, California";
 const CAMP_HOURS = "8:30am - 6:00pm daily";
 const CONTACT_EMAIL = "ballarkafrica@gmail.com";
 const CONTACT_PHONE = "09067831477";
+const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER ?? "resend";
 
 type RegistrationPayload = {
   fullName: string;
@@ -87,17 +89,59 @@ export async function POST(request: Request) {
     }
 
     let emailSent = false;
-    const resendKey = process.env.RESEND_API_KEY;
-    const resendFrom = process.env.RESEND_FROM_EMAIL;
+    const registrationId = data?.id ?? "";
 
-    if (resendKey && resendFrom) {
+    if (EMAIL_PROVIDER === "emailjs") {
+      const serviceId = process.env.EMAILJS_SERVICE_ID;
+      const templateId = process.env.EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+      const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+
+      if (serviceId && templateId && publicKey && privateKey) {
+        try {
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              to_name: fullName,
+              to_email: email,
+              camp_price: CAMP_PRICE,
+              camp_dates: CAMP_DATES,
+              camp_location: CAMP_LOCATION,
+              camp_hours: CAMP_HOURS,
+              registration_id: registrationId,
+              message:
+                "Thanks for registering for Adrenale 5 Basketball Summer Camp. Our team will follow up shortly with next steps.",
+              contact_email: CONTACT_EMAIL,
+              contact_phone: CONTACT_PHONE,
+            },
+            {
+              publicKey,
+              privateKey,
+            },
+          );
+          emailSent = true;
+        } catch (error) {
+          emailSent = false;
+        }
+      }
+    } else if (EMAIL_PROVIDER === "resend") {
+      const resendKey = process.env.RESEND_API_KEY;
+      const resendFrom = process.env.RESEND_FROM_EMAIL;
+
+      if (!resendKey || !resendFrom) {
+        return NextResponse.json(
+          { error: "Resend environment variables are missing." },
+          { status: 500 },
+        );
+      }
+
       try {
         const resend = new Resend(resendKey);
-        const registrationId = data?.id ?? "";
         await resend.emails.send({
           from: resendFrom,
           to: email,
-          subject: "Registration received — Adrenale 5 Basketball Summer Camp",
+          subject: "Registration received - Adrenale 5 Basketball Summer Camp",
           text: [
             `Hi ${fullName},`,
             "",

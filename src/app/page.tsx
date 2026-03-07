@@ -28,55 +28,143 @@ const highlights = [
 
 const schedule = [
   {
-    day: "Day 1",
-    title: "Foundations & Baseline",
-    detail: "Movement assessment, ball control, shot form audit.",
+    day: "Friday, July 10th",
+    title: "Arrival & First Taste of Vegas",
+    items: [
+      "All day: Arrival of delegates at Harry Reid International Airport (LAS); A5 staff greeting and transport to accommodations.",
+      "15:00 - 17:00: Hotel check-in and settling in.",
+      "17:30 - 19:00: Welcome orientation and program kick-off; distribution of A5 gear (shooting shirts, backpacks, itineraries).",
+      "19:30 - 21:00: Welcome dinner; casual team bonding at the hotel or a local family-style restaurant.",
+      "21:00: Curfew and room checks.",
+    ],
   },
   {
-    day: "Day 2",
-    title: "Shooting Lab",
-    detail: "Range building, footwork patterns, catch-and-shoot reps.",
+    day: "Saturday, July 11th",
+    title: "Hoops & Higher Education",
+    items: [
+      "07:00 - 08:30: Breakfast at the hotel.",
+      "09:00 - 11:30: UNLV campus tour; see academic buildings, student union, and dorms to get a feel for a Division I campus lifestyle.",
+      "11:30 - 13:00: Lunch at the UNLV Student Union.",
+      "13:30 - 17:00: NBA Summer League Session 1; head to the Thomas & Mack Center and watch future NBA stars compete.",
+      "17:30 - 19:00: Dinner (casual dining near the Strip).",
+      "19:30 - 21:30: The Las Vegas Strip experience; guided, supervised walk to take in the iconic sights, architecture, and atmosphere of Las Vegas Boulevard.",
+      "22:00: Curfew and room checks.",
+    ],
   },
   {
-    day: "Day 3",
-    title: "Defense + Footwork",
-    detail: "Closeouts, lateral speed, on-ball pressure sequences.",
+    day: "Sunday, July 12th",
+    title: "Hoover Dam Adventure & Nightlife History",
+    items: [
+      "06:30 - 07:30: Breakfast.",
+      "08:00 - 14:00: Hoover Dam excursion; 4-5-hour tour with Mike O'Callaghan-Pat Tillman Memorial Bridge stop and a walking tour across the top of the dam to learn about this engineering marvel.",
+      "Lunch included during or immediately following the tour.",
+      "14:00 - 17:00: Rest and recovery time at the hotel (pool optional).",
+      "17:30 - 19:30: NBA Summer League Session 2 at Thomas & Mack Center.",
+      "20:00 - 22:00: Fremont Street Experience; light shows, street performers, and classic neon signs of downtown.",
+      "22:30: Curfew and room checks.",
+    ],
   },
   {
-    day: "Day 4",
-    title: "Playmaking",
-    detail: "Reads off the pick-and-roll, passing windows, vision drills.",
+    day: "Monday, July 13th",
+    title: "NBA Con & Behind-the-Scenes Access",
+    items: [
+      "07:00 - 08:30: Breakfast.",
+      "09:00 - 12:00: NBA Con at the Las Vegas Convention Center; athletes can explore interactive fan experiences, purchase exclusive gear, and see basketball exhibits.",
+      "12:00 - 13:30: Lunch.",
+      "14:00 - 16:00: NBA League shootaround experience with behind-the-scenes access to a team practice facility or shootaround at the convention center (subject to NBA team schedules).",
+      "16:00 - 18:00: NBA Summer League Session 3.",
+      "18:30 - 19:30: Dinner.",
+      "20:00 - 21:00: Packing and preparation for travel; briefing on LA leg and training expectations.",
+      "21:00: Early curfew.",
+    ],
   },
   {
-    day: "Day 5",
-    title: "Finishing School",
-    detail: "Rim reads, contact finishes, touch off the glass.",
+    day: "Tuesday, July 14th",
+    title: "Travel to Los Angeles & Leisure",
+    items: [
+      "03:30: Wake up call.",
+      "04:00 - 05:00: Light morning workout; mandatory movement and stretch session to shake off the Vegas fatigue and prepare for travel.",
+      "05:30 - 06:30: Breakfast / boxed breakfast.",
+      "07:00: Depart for Harry Reid International Airport (LAS).",
+      "09:30 - 11:00: Flight to Los Angeles (LAX).",
+      "11:30 - 13:00: Transfer to hotel and check-in.",
+      "13:00 - 17:00: Leisure and recovery time; lunch on your own (per diem provided).",
+      "17:30 - 19:00: Team dinner.",
+      "19:30 - 21:00: Nightlife activity at Venice Beach Boardwalk; casual evening stroll to see the iconic beach, street performers, basketball courts, and skate park.",
+      "21:00: Curfew.",
+    ],
   },
   {
-    day: "Day 6",
-    title: "Live Games",
-    detail: "Full-court competition, film review, coach feedback.",
+    day: "Wednesday, July 15th",
+    title: "Training Camp Day 1 (The Grind Begins)",
+    items: [
+      "03:30: Wake up call.",
+      "04:00 - 06:00: Morning workout (Session 1); high-energy skill development focusing on ball handling, footwork, and finishing at the rim.",
+      "06:30 - 08:00: Breakfast and rest.",
+      "08:30 - 10:30: Film study and guest speaker; breakdown of NBA/college game footage and discussion on the path to professional basketball.",
+      "10:30 - 11:00: Light snack.",
+      "11:00 - 15:00: On-court drills and scrimmages (Session 2) covering defensive principles, offensive sets, and live 5-on-5 action.",
+      "15:00 - 17:00: Rest period.",
+      "17:00 - 18:30: Dinner.",
+      "19:00 - 21:00: The Grove and Farmers Market.",
+      "21:00: Curfew.",
+    ],
   },
   {
-    day: "Day 7",
-    title: "Showcase + Celebration",
-    detail: "Family showcase, awards, and next-step development plans.",
+    day: "Thursday, July 16th",
+    title: "Training Camp Day 2 (Repetition & Refinement)",
+    items: [
+      "03:30: Wake up call.",
+      "04:00 - 06:00: Morning workout (Session 1) focusing on shooting form, consistency, and conditioning.",
+      "06:30 - 08:00: Breakfast and rest.",
+      "08:30 - 10:30: Film study and guest speaker focusing on basketball IQ and decision making (NBA or WNBA legend TBC).",
+      "10:30 - 11:00: Light snack.",
+      "11:00 - 15:00: On-court drills and scrimmages (Session 2) emphasizing position-specific work and competitive 5-on-5 scenarios.",
+      "15:00 - 17:00: Rest period.",
+      "17:00 - 18:30: Dinner.",
+      "19:00 - 21:00: Santa Monica Pier.",
+      "21:00: Curfew.",
+    ],
   },
   {
-    day: "Day 8",
-    title: "Strength + Conditioning",
-    detail: "Explosive lifts, core work, and mobility circuits with trainers.",
+    day: "Friday, July 17th",
+    title: "Academic & Recruitment Tour (Rest Day)",
+    items: [
+      "07:00 - 08:30: Breakfast (later start for recovery).",
+      "09:00 - 11:30: Guided tour of UCLA (Royce Hall, Powell Library, and Janss Steps); learn about admissions and athletic programs.",
+      "11:30 - 13:00: Lunch in Westwood Village.",
+      "13:30 - 15:30: Guided tour of USC; visit the admission center and see athletic facilities.",
+      "15:30 - 17:30: JUCO tour to understand the community college pathway to Division I sports.",
+      "17:30 - 18:30: Dinner.",
+      "19:00 - 22:00: Theme park night (Universal Studios Hollywood or Six Flags Magic Mountain).",
+      "22:00: Return to hotel.",
+      "00:00: Special late-night curfew.",
+    ],
   },
   {
-    day: "Day 9",
-    title: "Skill Lab + Scrimmage",
-    detail: "Position-specific skill labs followed by structured live games.",
+    day: "Saturday, July 18th",
+    title: "Tournament Day & Awards Banquet",
+    items: [
+      "03:30: Wake up call.",
+      "04:00 - 05:30: Pre-game warm-up and shootaround.",
+      "05:30 - 07:00: Breakfast.",
+      "08:00 - 12:00: A5 Tournament pool play (round-robin) at a local sports complex/college gym.",
+      "12:00 - 13:30: Lunch and rest.",
+      "13:30 - 17:00: A5 Tournament playoffs and championship; medals awarded to the winning team.",
+      "17:30 - 19:00: Rest and prepare for banquet.",
+      "19:00 - 21:30: Awards banquet and closing ceremony with guest speakers and NBA legends present.",
+      "21:30 - 23:00: Free time and bonding.",
+      "23:00: Curfew.",
+    ],
   },
   {
-    day: "Day 10",
-    title: "Recovery + Evaluation",
-    detail:
-      "Recovery sessions, film breakdown, and one-on-one progress reviews.",
+    day: "Sunday, July 19th",
+    title: "Departure",
+    items: [
+      "06:30 - 08:30: Breakfast and check-out; final team breakfast.",
+      "09:00: Depart for Los Angeles International Airport (LAX) with group transfers.",
+      "Ongoing: Flights home; conclusion of the 2026 A5 Summer Athletic Immersion Program.",
+    ],
   },
 ];
 
@@ -103,25 +191,28 @@ const activities = [
 
 const essentials = [
   {
-    title: "Performance Shoes",
-    detail: "Break them in before day one for full-court comfort.",
-    image: "/essentials/kobe-protro.avif",
-  },
-  {
-    title: "Hydration Pack",
-    detail: "Refill stations are available all day long.",
-    image: "/essentials/nike-bottle.jpg",
-  },
-  {
-    title: "Recovery Kit",
-    detail: "Bands, roller, and post-practice recovery tools.",
-    image: "/essentials/arb-recovery.jpg",
-  },
-  {
-    title: "Camp Journal",
-    detail: "Track goals, notes, and coach feedback.",
+    title: "Guest Speakers",
+    detail: "Learn from former players, coaches, and industry leaders.",
     image:
-      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80",
+      "https://images.pexels.com/photos/6767216/pexels-photo-6767216.jpeg?cs=srgb&dl=pexels-cottonbro-6767216.jpg&fm=jpg",
+  },
+  {
+    title: "Performance Games",
+    detail: "Live, competitive play with coaching feedback.",
+    image:
+      "https://images.pexels.com/photos/30986363/pexels-photo-30986363.jpeg?cs=srgb&dl=pexels-franco-monsalvo-252430633-30986363.jpg&fm=jpg",
+  },
+  {
+    title: "Workshops",
+    detail: "Film study, mindset, and skill lab sessions.",
+    image:
+      "https://images.pexels.com/photos/32688082/pexels-photo-32688082.jpeg?cs=srgb&dl=pexels-coen-crevels-1241774106-32688082.jpg&fm=jpg",
+  },
+  {
+    title: "Scouts",
+    detail: "Exposure to evaluators and recruitment pathways.",
+    image:
+      "https://images.pexels.com/photos/6767013/pexels-photo-6767013.jpeg?cs=srgb&dl=pexels-cottonbro-6767013.jpg&fm=jpg",
   },
 ];
 
@@ -219,8 +310,9 @@ export default function Home() {
               Discover Your Next Level
             </h1>
             <p className="text-base text-white/80 md:text-lg">
-              A high-intensity training week for athletes ages 13-18. Skill
-              labs, live games, film rooms, and recovery. All under one roof.
+              A high-intensity training week for athletes ages 13-17 from Africa
+              (18 years old, if you have a waiver). Skill labs, live games, film
+              rooms, and recovery. All under one roof.
             </p>
             <div className="flex flex-wrap gap-4">
               <a
@@ -294,9 +386,10 @@ export default function Home() {
                   10-Day Global Experience
                 </h2>
                 <p className="text-sm text-stone md:text-base">
-                  Every day mixes skill sessions, competitive reps, and film
-                  study. You will leave with a personalized development plan and
-                  measurable progress.
+                  Experiencing professional basketball at the NBA Summer League,
+                  followed by an intensive training camp in Los Angeles focused
+                  on skill development, competition, and exposure to collegiate
+                  and professional pathways.
                 </p>
               </div>
               <div className="relative">
@@ -312,9 +405,8 @@ export default function Home() {
                     Focus
                   </p>
                   <p className="mt-2 font-display text-2xl uppercase tracking-[0.1em]">
-                    18+ hours
+                    Full itinerary
                   </p>
-                  <p className="text-xs text-white/70">of coached reps</p>
                 </div>
               </div>
             </div>
@@ -533,7 +625,7 @@ export default function Home() {
             <p className="text-sm uppercase tracking-[0.3em] text-citrus">
               Location
             </p>
-            <p className="text-white/70">1234 Beverlywoods Way</p>
+            <p className="text-white/70">6/11 Wilshere Boulevard</p>
             <p className="text-white/70">Los Angeles, CA 90035</p>
           </div>
         </div>

@@ -53,13 +53,13 @@ export default function RegistrationForm() {
       }
 
       setStatus("success");
-      if (data?.emailSent === false) {
+      if (data?.emailSent) {
         setMessage(
-          "Registration received! We'll follow up shortly with next steps.",
+          "Registration received! Check your email for confirmation and pricing.",
         );
       } else {
         setMessage(
-          "Registration received! Check your email for confirmation and pricing.",
+          "Registration received! We'll follow up shortly with next steps.",
         );
       }
       setFormData(initialState);
