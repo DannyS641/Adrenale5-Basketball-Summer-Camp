@@ -310,7 +310,7 @@ export default function Home() {
               Discover Your Next Level
             </h1>
             <p className="text-base text-white/80 md:text-lg">
-              A high-intensity training week for athletes ages 13-17 from Africa
+              A high-intensity training week for athletes ages 13-18 from Africa
               (18 years old, if you have a waiver). Skill labs, live games, film
               rooms, and recovery. All under one roof.
             </p>
