@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CAMP_START = "2026-07-20T09:00:00";
+const CAMP_START = "2026-07-10T09:00:00";
 
 function getDaysUntil() {
   const start = new Date(CAMP_START).setHours(0, 0, 0, 0);
