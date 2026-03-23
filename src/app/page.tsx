@@ -317,7 +317,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#register"
-                className="rounded-full bg-citrus px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-night transition hover:bg-[#e1a93f]"
+                className="rounded-full bg-citrus px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-night transition hover:bg-[#aac85d]"
               >
                 Reserve a Spot
               </a>
@@ -347,7 +347,7 @@ export default function Home() {
           id="highlights"
           className="mx-auto max-w-6xl px-6 py-12 md:py-20"
         >
-          <div className="rounded-[36px] bg-white/55 px-6 py-8 shadow-[0_25px_60px_rgba(15,23,42,0.18)] backdrop-blur-2xl ring-1 ring-white/50 md:px-10 md:py-12">
+          <div className="rounded-[36px] bg-cloud/95 px-6 py-8 shadow-[0_25px_60px_rgba(15,23,42,0.18)] ring-1 ring-white/60 md:px-10 md:py-12">
             <div className="text-center space-y-3">
               <p className="text-xs uppercase tracking-[0.5em] text-ember">
                 Train smarter
@@ -360,7 +360,7 @@ export default function Home() {
               {highlights.map((item, index) => (
                 <div
                   key={item.title}
-                  className="rounded-3xl bg-white/80 px-6 py-5 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur md:px-8 md:py-6"
+                  className="rounded-3xl bg-cloud px-6 py-5 shadow-[0_20px_50px_rgba(15,23,42,0.08)] md:px-8 md:py-6"
                 >
                   <p className="text-sm uppercase tracking-[0.4em] text-ember">
                     0{index + 1}
@@ -375,7 +375,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="schedule" className="bg-white/85 backdrop-blur">
+        <section id="schedule" className="bg-cloud/95">
           <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
               <div className="space-y-4">
@@ -427,7 +427,7 @@ export default function Home() {
             {essentials.map((item) => (
               <div
                 key={item.title}
-                className="rounded-3xl bg-white/90 px-6 py-5 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur"
+                className="rounded-3xl bg-cloud px-6 py-5 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
               >
                 <div className="relative mx-auto mb-4 h-20 w-20 overflow-hidden rounded-2xl">
                   <Image
@@ -447,7 +447,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-mist/85 backdrop-blur">
+        <section className="bg-mist">
           <div className="mx-auto max-w-6xl px-6 py-12 md:py-20">
             <div className="text-center space-y-3">
               <p className="text-xs uppercase tracking-[0.5em] text-ember">
@@ -461,7 +461,7 @@ export default function Home() {
               {activities.map((activity) => (
                 <div
                   key={activity.title}
-                  className="group overflow-hidden rounded-3xl bg-white/90 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur"
+                  className="group overflow-hidden rounded-3xl bg-cloud shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
                 >
                   <div className="relative h-56">
                     <Image
@@ -494,7 +494,7 @@ export default function Home() {
         </section>
 
         <section id="coaches" className="mx-auto max-w-6xl px-6 py-12 md:py-20">
-          <div className="rounded-[36px] bg-white/55 px-6 py-8 shadow-[0_25px_60px_rgba(15,23,42,0.18)] backdrop-blur-2xl ring-1 ring-white/50 md:px-10 md:py-12">
+          <div className="rounded-[36px] bg-cloud/95 px-6 py-8 shadow-[0_25px_60px_rgba(15,23,42,0.18)] ring-1 ring-white/60 md:px-10 md:py-12">
             <div className="grid gap-10 md:grid-cols-2 md:items-center">
               <div className="space-y-5">
                 <p className="text-xs uppercase tracking-[0.5em] text-ember">
@@ -507,7 +507,7 @@ export default function Home() {
                   Former pros, collegiate trainers, and skill coaches lead each
                   training group with hands-on feedback and accountability.
                 </p>
-                <div className="rounded-3xl bg-white/80 p-6 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur">
+                <div className="rounded-3xl bg-sand p-6 shadow-[0_20px_50px_rgba(15,23,42,0.08)]">
                   <p className="text-sm uppercase tracking-[0.4em] text-ember">
                     Included
                   </p>
@@ -521,7 +521,7 @@ export default function Home() {
                 {coaches.map((coach) => (
                   <div
                     key={coach.name}
-                    className="flex items-center gap-5 rounded-3xl bg-white/80 p-5 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur"
+                    className="flex items-center gap-5 rounded-3xl bg-cloud p-5 shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
                   >
                     <Image
                       src={coach.image}
@@ -547,7 +547,7 @@ export default function Home() {
           <StatCounters />
         </section>
 
-        <section className="bg-white/85 backdrop-blur">
+        <section className="bg-cloud/95">
           <div className="mx-auto max-w-6xl px-6 py-12 md:py-20">
             <div className="text-center space-y-3">
               <p className="text-xs uppercase tracking-[0.5em] text-ember">
@@ -561,7 +561,7 @@ export default function Home() {
               {testimonials.map((testimonial) => (
                 <div
                   key={testimonial.name}
-                  className="rounded-3xl bg-sand/90 p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur"
+                  className="rounded-3xl bg-sand p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
                 >
                   <p className="text-lg text-ink">
                     &ldquo;{testimonial.quote}&rdquo;

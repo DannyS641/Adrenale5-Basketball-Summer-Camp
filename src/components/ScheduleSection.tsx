@@ -36,7 +36,7 @@ export default function ScheduleSection({ schedule }: ScheduleSectionProps) {
         {visibleSchedule.map((day) => (
           <div
             key={day.day}
-            className="rounded-2xl border border-mist bg-sand/80 px-4 py-3"
+            className="rounded-2xl border border-mist bg-cloud px-4 py-3"
           >
             <div className="flex items-center justify-between gap-4">
               <p className="font-display text-xl uppercase tracking-[0.08em]">

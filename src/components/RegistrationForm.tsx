@@ -243,7 +243,7 @@ export default function RegistrationForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full rounded-full bg-forest px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0b2622] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+        className="w-full rounded-full bg-forest px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#143d36] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {status === "loading" ? "Submitting..." : "Submit Registration"}
       </button>
