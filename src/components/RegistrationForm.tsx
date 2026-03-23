@@ -90,7 +90,7 @@ export default function RegistrationForm() {
           onChange={handleChange}
           required
           className="mt-2 w-full rounded-2xl border border-stone/20 bg-white/80 px-4 py-3 text-ink placeholder:text-stone/50 shadow-sm transition focus:border-citrus focus:outline-none focus:ring-2 focus:ring-citrus/30"
-          placeholder="Jordan Matthews"
+          placeholder="John Doe"
         />
       </div>
       <div className="grid gap-4 md:grid-cols-2">
