@@ -610,7 +610,7 @@ export default function Home() {
               Adrenale 5 Basketball
             </p>
             <p className="text-white/70">
-              7-day immersive training for athletes ready to compete at the next
+              10-day immersive training for athletes ready to compete at the next
               level.
             </p>
           </div>

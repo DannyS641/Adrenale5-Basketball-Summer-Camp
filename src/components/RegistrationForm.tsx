@@ -46,10 +46,26 @@ export default function RegistrationForm() {
         }),
       });
 
-      const data = await response.json();
+      const responseText = await response.text();
+      let data: { error?: string; emailSent?: boolean } | null = null;
+
+      if (responseText) {
+        try {
+          data = JSON.parse(responseText) as {
+            error?: string;
+            emailSent?: boolean;
+          };
+        } catch {
+          data = null;
+        }
+      }
 
       if (!response.ok) {
-        throw new Error(data?.error ?? "Something went wrong. Try again.");
+        throw new Error(
+          data?.error ??
+            responseText ||
+            "Something went wrong. Try again.",
+        );
       }
 
       setStatus("success");

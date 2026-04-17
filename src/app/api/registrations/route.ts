@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import emailjs from "@emailjs/nodejs";
 
+export const runtime = "nodejs";
+
 const TABLE_NAME = "camp_registrations";
 const CAMP_PRICE = "$15,000";
 const CAMP_DATES = "July 20-26, 2026";
@@ -10,7 +12,6 @@ const CAMP_LOCATION = "Los Angeles, California";
 const CAMP_HOURS = "8:30am - 6:00pm daily";
 const CONTACT_EMAIL = "ballarkafrica@gmail.com";
 const CONTACT_PHONE = "09067831477";
-const EMAIL_PROVIDER = process.env.EMAIL_PROVIDER ?? "resend";
 
 type RegistrationPayload = {
   fullName: string;
@@ -23,6 +24,20 @@ type RegistrationPayload = {
   emergencyContactName?: string;
   notes?: string;
 };
+
+function getErrorMessage(error: unknown) {
+  return error instanceof Error ? error.message : "Unknown error.";
+}
+
+function getRegistrationErrorMessage(error: unknown) {
+  const message = getErrorMessage(error);
+
+  if (message.toLowerCase().includes("fetch failed")) {
+    return "Could not reach the registration database. Check your Supabase connection and Vercel environment variables.";
+  }
+
+  return message;
+}
 
 export async function POST(request: Request) {
   try {
@@ -65,77 +80,67 @@ export async function POST(request: Request) {
       auth: { persistSession: false },
     });
 
-    const { data, error } = await supabase
-      .from(TABLE_NAME)
-      .insert([
-        {
-          full_name: fullName,
-          email,
-          phone,
-          age,
-          grade_level: gradeLevel,
-          experience,
-          guardian_name: guardianName || null,
-          emergency_contact_name: emergencyContactName || null,
-          notes: notes || null,
-          payment_status: "not_required",
-        },
-      ])
-      .select("id")
-      .single();
+    let data: { id?: string } | null = null;
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    try {
+      const response = await supabase
+        .from(TABLE_NAME)
+        .insert([
+          {
+            full_name: fullName,
+            email,
+            phone,
+            age,
+            grade_level: gradeLevel,
+            experience,
+            guardian_name: guardianName || null,
+            emergency_contact_name: emergencyContactName || null,
+            notes: notes || null,
+            payment_status: "not_required",
+          },
+        ])
+        .select("id")
+        .single();
+
+      if (response.error) {
+        return NextResponse.json({ error: response.error.message }, { status: 500 });
+      }
+
+      data = response.data;
+    } catch (error) {
+      return NextResponse.json(
+        { error: getRegistrationErrorMessage(error) },
+        { status: 500 },
+      );
     }
 
     let emailSent = false;
     const registrationId = data?.id ?? "";
 
-    if (EMAIL_PROVIDER === "emailjs") {
-      const serviceId = process.env.EMAILJS_SERVICE_ID;
-      const templateId = process.env.EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.EMAILJS_PUBLIC_KEY;
-      const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+    const emailProvider = (process.env.EMAIL_PROVIDER ?? "auto").toLowerCase();
+    const resendKey = process.env.RESEND_API_KEY;
+    const resendFrom = process.env.RESEND_FROM_EMAIL;
+    const emailJsConfig = {
+      serviceId: process.env.EMAILJS_SERVICE_ID,
+      templateId: process.env.EMAILJS_TEMPLATE_ID,
+      publicKey: process.env.EMAILJS_PUBLIC_KEY,
+      privateKey: process.env.EMAILJS_PRIVATE_KEY,
+    };
 
-      if (serviceId && templateId && publicKey && privateKey) {
-        try {
-          await emailjs.send(
-            serviceId,
-            templateId,
-            {
-              to_name: fullName,
-              to_email: email,
-              camp_price: CAMP_PRICE,
-              camp_dates: CAMP_DATES,
-              camp_location: CAMP_LOCATION,
-              camp_hours: CAMP_HOURS,
-              registration_id: registrationId,
-              message:
-                "Thanks for registering for Adrenale 5 Basketball Summer Camp. Our team will follow up shortly with next steps.",
-              contact_email: CONTACT_EMAIL,
-              contact_phone: CONTACT_PHONE,
-            },
-            {
-              publicKey,
-              privateKey,
-            },
-          );
-          emailSent = true;
-        } catch (error) {
-          emailSent = false;
-        }
-      }
-    } else if (EMAIL_PROVIDER === "resend") {
-      const resendKey = process.env.RESEND_API_KEY;
-      const resendFrom = process.env.RESEND_FROM_EMAIL;
+    const canUseResend = Boolean(resendKey && resendFrom);
+    const canUseEmailJs = Boolean(
+      emailJsConfig.serviceId &&
+        emailJsConfig.templateId &&
+        emailJsConfig.publicKey &&
+        emailJsConfig.privateKey,
+    );
 
-      if (!resendKey || !resendFrom) {
-        return NextResponse.json(
-          { error: "Resend environment variables are missing." },
-          { status: 500 },
-        );
-      }
-
+    if (
+      (emailProvider === "auto" || emailProvider === "resend") &&
+      canUseResend &&
+      resendKey &&
+      resendFrom
+    ) {
       try {
         const resend = new Resend(resendKey);
         await resend.emails.send({
@@ -180,15 +185,46 @@ export async function POST(request: Request) {
           `,
         });
         emailSent = true;
-      } catch (error) {
+      } catch {
+        emailSent = false;
+      }
+    } else if (
+      (emailProvider === "auto" || emailProvider === "emailjs") &&
+      canUseEmailJs
+    ) {
+      try {
+        await emailjs.send(
+          emailJsConfig.serviceId!,
+          emailJsConfig.templateId!,
+          {
+            to_name: fullName,
+            to_email: email,
+            camp_price: CAMP_PRICE,
+            camp_dates: CAMP_DATES,
+            camp_location: CAMP_LOCATION,
+            camp_hours: CAMP_HOURS,
+            registration_id: registrationId,
+            message:
+              "Thanks for registering for Adrenale 5 Basketball Summer Camp. Our team will follow up shortly with next steps.",
+            contact_email: CONTACT_EMAIL,
+            contact_phone: CONTACT_PHONE,
+          },
+          {
+            publicKey: emailJsConfig.publicKey!,
+            privateKey: emailJsConfig.privateKey!,
+          },
+        );
+        emailSent = true;
+      } catch {
         emailSent = false;
       }
     }
 
     return NextResponse.json({ ok: true, id: data?.id, emailSent });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Unable to submit registration.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(
+      { error: getRegistrationErrorMessage(error) },
+      { status: 500 },
+    );
   }
 }
