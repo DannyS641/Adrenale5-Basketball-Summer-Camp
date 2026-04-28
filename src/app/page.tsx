@@ -609,23 +609,33 @@ export default function Home() {
             <p className="font-display text-2xl uppercase tracking-[0.2em]">
               Adrenale 5 Basketball
             </p>
-            <p className="text-white/70">
+            {/* <p className="text-white/70">
               10-day immersive training for athletes ready to compete at the next
               level.
-            </p>
+            </p> */}
           </div>
           <div className="space-y-3">
             <p className="text-sm uppercase tracking-[0.3em] text-citrus">
               Contact
             </p>
-            <p className="text-white/70">ballarkafrica@gmail.com</p>
-            <p className="text-white/70">09067831477</p>
+            <p className="text-white/70">Templar Global/Adrenale 5</p>
+            <p className="text-white/70">Paul Oronsaye</p>
+            <p className="text-white/70">
+              <a href="mailto:poronnsaye@templarfoundation.org">
+              poronnsaye@templarfoundation.org
+            </a>
+            </p>
+            <p className="text-white/70">
+              <a href="tel:+23408033762623">
+              +234 (0)803 376 2623
+            </a>
+            </p>
           </div>
           <div className="space-y-3">
             <p className="text-sm uppercase tracking-[0.3em] text-citrus">
               Location
             </p>
-            <p className="text-white/70">6/11 Wilshere Boulevard</p>
+            <p className="text-white/70">611 Wilshere Boulevard</p>
             <p className="text-white/70">Los Angeles, CA 90035</p>
           </div>
         </div>

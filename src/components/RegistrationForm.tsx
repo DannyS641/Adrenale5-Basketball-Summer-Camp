@@ -62,8 +62,7 @@ export default function RegistrationForm() {
 
       if (!response.ok) {
         throw new Error(
-          data?.error ??
-            responseText ||
+          (data?.error ?? responseText) ||
             "Something went wrong. Try again.",
         );
       }
