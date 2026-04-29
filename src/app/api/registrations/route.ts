@@ -83,6 +83,14 @@ export async function POST(request: Request) {
     let data: { id?: string } | null = null;
 
     try {
+      // Get count of existing registrations to generate sequential ID
+      const countResponse = await supabase
+        .from(TABLE_NAME)
+        .select("id", { count: "exact", head: true });
+
+      const registrationCount = countResponse.count || 0;
+      const customRegistrationId = `P${String(registrationCount + 1).padStart(3, "0")}`;
+
       const response = await supabase
         .from(TABLE_NAME)
         .insert([
@@ -97,6 +105,7 @@ export async function POST(request: Request) {
             emergency_contact_name: emergencyContactName || null,
             notes: notes || null,
             payment_status: "not_required",
+            registration_code: customRegistrationId,
           },
         ])
         .select("id")
@@ -107,6 +116,7 @@ export async function POST(request: Request) {
       }
 
       data = response.data;
+      data = { ...data, customId: customRegistrationId };
     } catch (error) {
       return NextResponse.json(
         { error: getRegistrationErrorMessage(error) },
@@ -115,7 +125,7 @@ export async function POST(request: Request) {
     }
 
     let emailSent = false;
-    const registrationId = data?.id ?? "";
+    const registrationId = (data as any)?.customId ?? data?.id ?? "";
 
     const emailProvider = (process.env.EMAIL_PROVIDER ?? "auto").toLowerCase();
     const resendKey = process.env.RESEND_API_KEY;
