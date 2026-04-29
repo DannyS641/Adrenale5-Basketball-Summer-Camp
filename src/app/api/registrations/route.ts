@@ -7,11 +7,11 @@ export const runtime = "nodejs";
 
 const TABLE_NAME = "camp_registrations";
 const CAMP_PRICE = "$15,000";
-const CAMP_DATES = "July 20-26, 2026";
+const CAMP_DATES = "July 10-29, 2026";
 const CAMP_LOCATION = "Los Angeles, California";
 const CAMP_HOURS = "8:30am - 6:00pm daily";
-const CONTACT_EMAIL = "ballarkafrica@gmail.com";
-const CONTACT_PHONE = "09067831477";
+const CONTACT_EMAIL = "oyemwenseoronsaye@gmail.com";
+const CONTACT_PHONE = "+2348033762623";
 
 type RegistrationPayload = {
   fullName: string;
@@ -143,6 +143,8 @@ export async function POST(request: Request) {
     ) {
       try {
         const resend = new Resend(resendKey);
+        
+        // Send confirmation email to registrant
         await resend.emails.send({
           from: resendFrom,
           to: email,
@@ -184,6 +186,66 @@ export async function POST(request: Request) {
             </div>
           `,
         });
+
+        // Send notification email to contact person
+        await resend.emails.send({
+          from: resendFrom,
+          to: CONTACT_EMAIL,
+          subject: `New registration: ${fullName} - Adrenale 5 Basketball Summer Camp`,
+          text: [
+            `New registration received!`,
+            "",
+            `Registration ID: ${registrationId}`,
+            `Player: ${fullName}`,
+            `Email: ${email}`,
+            `Phone: ${phone}`,
+            `Age: ${age}`,
+            `Grade: ${gradeLevel}`,
+            `Experience: ${experience}`,
+            guardianName ? `Guardian: ${guardianName}` : "",
+            emergencyContactName ? `Emergency Contact: ${emergencyContactName}` : "",
+            notes ? `Notes: ${notes}` : "",
+          ].join("\n"),
+          html: `
+            <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6;">
+              <p><strong>New registration received!</strong></p>
+              <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr>
+                  <td style="padding: 8px; background: #f4f0e8; font-weight: bold;">Registration ID:</td>
+                  <td style="padding: 8px; background: #f4f0e8;">${registrationId}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; font-weight: bold;">Player Name:</td>
+                  <td style="padding: 8px;">${fullName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; background: #f4f0e8; font-weight: bold;">Email:</td>
+                  <td style="padding: 8px; background: #f4f0e8;"><a href="mailto:${email}">${email}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; font-weight: bold;">Phone:</td>
+                  <td style="padding: 8px;"><a href="tel:${phone}">${phone}</a></td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; background: #f4f0e8; font-weight: bold;">Age:</td>
+                  <td style="padding: 8px; background: #f4f0e8;">${age}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; font-weight: bold;">Grade Level:</td>
+                  <td style="padding: 8px;">${gradeLevel}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; background: #f4f0e8; font-weight: bold;">Experience:</td>
+                  <td style="padding: 8px; background: #f4f0e8;">${experience}</td>
+                </tr>
+                ${guardianName ? `<tr><td style="padding: 8px; font-weight: bold;">Guardian:</td><td style="padding: 8px;">${guardianName}</td></tr>` : ""}
+                ${emergencyContactName ? `<tr><td style="padding: 8px; background: #f4f0e8; font-weight: bold;">Emergency Contact:</td><td style="padding: 8px; background: #f4f0e8;">${emergencyContactName}</td></tr>` : ""}
+              </table>
+              ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ""}
+            </div>
+          `,
+        });
+        
         emailSent = true;
       } catch {
         emailSent = false;
@@ -193,6 +255,7 @@ export async function POST(request: Request) {
       canUseEmailJs
     ) {
       try {
+        // Send confirmation to registrant
         await emailjs.send(
           emailJsConfig.serviceId!,
           emailJsConfig.templateId!,
@@ -214,6 +277,34 @@ export async function POST(request: Request) {
             privateKey: emailJsConfig.privateKey!,
           },
         );
+        
+        // Send notification to contact person
+        await emailjs.send(
+          emailJsConfig.serviceId!,
+          emailJsConfig.templateId!,
+          {
+            to_name: "Camp Admin",
+            to_email: CONTACT_EMAIL,
+            player_name: fullName,
+            player_email: email,
+            player_phone: phone,
+            player_age: age,
+            player_grade: gradeLevel,
+            player_experience: experience,
+            guardian_name: guardianName || "Not provided",
+            emergency_contact: emergencyContactName || "Not provided",
+            player_notes: notes || "None",
+            registration_id: registrationId,
+            message: `New registration: ${fullName}`,
+            contact_email: CONTACT_EMAIL,
+            contact_phone: CONTACT_PHONE,
+          },
+          {
+            publicKey: emailJsConfig.publicKey!,
+            privateKey: emailJsConfig.privateKey!,
+          },
+        );
+        
         emailSent = true;
       } catch {
         emailSent = false;
