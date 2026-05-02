@@ -6,7 +6,7 @@ import emailjs from "@emailjs/nodejs";
 export const runtime = "nodejs";
 
 const TABLE_NAME = "camp_registrations";
-const CAMP_PRICE = "$15,000";
+// const CAMP_PRICE = "$15,000";
 const CAMP_DATES = "July 10-29, 2026";
 const CAMP_LOCATION = "Los Angeles, California";
 const CAMP_HOURS = "8:30am - 6:00pm daily";
@@ -165,8 +165,6 @@ export async function POST(request: Request) {
             "Thanks for registering for Adrenale 5 Basketball Summer Camp.",
             "Your registration has been received and our team will review it within 24 hours.",
             "",
-            `Camp price: ${CAMP_PRICE} (USD). Payment is handled offline after review.`,
-            "",
             "Camp details:",
             `- Dates: ${CAMP_DATES}`,
             `- Location: ${CAMP_LOCATION}`,
@@ -181,7 +179,6 @@ export async function POST(request: Request) {
               <p>Hi ${fullName},</p>
               <p>Thanks for registering for Adrenale 5 Basketball Summer Camp.</p>
               <p>Your registration has been received and our team will review it within 24 hours.</p>
-              <p><strong>Camp price:</strong> ${CAMP_PRICE} (USD). Payment is handled offline after review.</p>
               <div style="margin: 16px 0; padding: 12px 16px; background: #f4f0e8; border-radius: 12px;">
                 <p style="margin: 0 0 8px;"><strong>Camp details</strong></p>
                 <ul style="margin: 0; padding-left: 18px;">
@@ -272,7 +269,6 @@ export async function POST(request: Request) {
           {
             to_name: fullName,
             to_email: email,
-            camp_price: CAMP_PRICE,
             camp_dates: CAMP_DATES,
             camp_location: CAMP_LOCATION,
             camp_hours: CAMP_HOURS,
