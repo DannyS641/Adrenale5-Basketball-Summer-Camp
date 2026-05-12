@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
-import emailjs from "@emailjs/nodejs";
+import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
 
@@ -10,7 +9,7 @@ const TABLE_NAME = "camp_registrations";
 const CAMP_DATES = "July 10-29, 2026";
 const CAMP_LOCATION = "Los Angeles, California";
 const CAMP_HOURS = "8:30am - 6:00pm daily";
-const CONTACT_EMAIL = "oyemwenseoronsaye@gmail.com";
+const CONTACT_EMAIL = "pauladrenale5@gmail.com";
 const CONTACT_PHONE = "+2348033762623";
 
 type RegistrationPayload = {
@@ -80,7 +79,7 @@ export async function POST(request: Request) {
       auth: { persistSession: false },
     });
 
-    let data: { id?: string } | null = null;
+    let data: { id?: string; customId?: string } | null = null;
 
     try {
       // Get count of existing registrations to generate sequential ID
@@ -125,38 +124,33 @@ export async function POST(request: Request) {
     }
 
     let emailSent = false;
-    const registrationId = (data as any)?.customId ?? data?.id ?? "";
+    let emailError: string | null = null;
+    const registrationId = data?.customId ?? data?.id ?? "";
 
-    const emailProvider = (process.env.EMAIL_PROVIDER ?? "auto").toLowerCase();
-    const resendKey = process.env.RESEND_API_KEY;
-    const resendFrom = process.env.RESEND_FROM_EMAIL;
-    const emailJsConfig = {
-      serviceId: process.env.EMAILJS_SERVICE_ID,
-      templateId: process.env.EMAILJS_TEMPLATE_ID,
-      publicKey: process.env.EMAILJS_PUBLIC_KEY,
-      privateKey: process.env.EMAILJS_PRIVATE_KEY,
-    };
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
+    const fromName = process.env.GMAIL_FROM_NAME || "Adrenale 5 Basketball Camp";
+    const adminEmail = process.env.ADMIN_EMAIL || gmailUser;
 
-    const canUseResend = Boolean(resendKey && resendFrom);
-    const canUseEmailJs = Boolean(
-      emailJsConfig.serviceId &&
-        emailJsConfig.templateId &&
-        emailJsConfig.publicKey &&
-        emailJsConfig.privateKey,
-    );
-
-    if (
-      (emailProvider === "auto" || emailProvider === "resend") &&
-      canUseResend &&
-      resendKey &&
-      resendFrom
-    ) {
+    if (!gmailUser || !gmailAppPassword) {
+      emailError =
+        "GMAIL_USER and GMAIL_APP_PASSWORD must be set in environment variables.";
+      console.error("[registrations] Email not sent:", emailError);
+    } else {
       try {
-        const resend = new Resend(resendKey);
-        
-        // Send confirmation email to registrant
-        await resend.emails.send({
-          from: resendFrom,
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: gmailUser,
+            pass: gmailAppPassword,
+          },
+        });
+
+        const fromHeader = `"${fromName}" <${gmailUser}>`;
+
+        // Confirmation to registrant
+        await transporter.sendMail({
+          from: fromHeader,
           to: email,
           subject: "Registration received - Adrenale 5 Basketball Summer Camp",
           text: [
@@ -194,10 +188,11 @@ export async function POST(request: Request) {
           `,
         });
 
-        // Send notification email to contact person
-        await resend.emails.send({
-          from: resendFrom,
-          to: CONTACT_EMAIL,
+        // Notification to admin
+        await transporter.sendMail({
+          from: fromHeader,
+          to: adminEmail,
+          replyTo: email,
           subject: `New registration: ${fullName} - Adrenale 5 Basketball Summer Camp`,
           text: [
             `New registration received!`,
@@ -252,72 +247,15 @@ export async function POST(request: Request) {
             </div>
           `,
         });
-        
+
         emailSent = true;
-      } catch {
-        emailSent = false;
-      }
-    } else if (
-      (emailProvider === "auto" || emailProvider === "emailjs") &&
-      canUseEmailJs
-    ) {
-      try {
-        // Send confirmation to registrant
-        await emailjs.send(
-          emailJsConfig.serviceId!,
-          emailJsConfig.templateId!,
-          {
-            to_name: fullName,
-            to_email: email,
-            camp_dates: CAMP_DATES,
-            camp_location: CAMP_LOCATION,
-            camp_hours: CAMP_HOURS,
-            registration_id: registrationId,
-            message:
-              "Thanks for registering for Adrenale 5 Basketball Summer Camp. Our team will follow up shortly with next steps.",
-            contact_email: CONTACT_EMAIL,
-            contact_phone: CONTACT_PHONE,
-          },
-          {
-            publicKey: emailJsConfig.publicKey!,
-            privateKey: emailJsConfig.privateKey!,
-          },
-        );
-        
-        // Send notification to contact person
-        await emailjs.send(
-          emailJsConfig.serviceId!,
-          emailJsConfig.templateId!,
-          {
-            to_name: "Camp Admin",
-            to_email: CONTACT_EMAIL,
-            player_name: fullName,
-            player_email: email,
-            player_phone: phone,
-            player_age: age,
-            player_grade: gradeLevel,
-            player_experience: experience,
-            guardian_name: guardianName || "Not provided",
-            emergency_contact: emergencyContactName || "Not provided",
-            player_notes: notes || "None",
-            registration_id: registrationId,
-            message: `New registration: ${fullName}`,
-            contact_email: CONTACT_EMAIL,
-            contact_phone: CONTACT_PHONE,
-          },
-          {
-            publicKey: emailJsConfig.publicKey!,
-            privateKey: emailJsConfig.privateKey!,
-          },
-        );
-        
-        emailSent = true;
-      } catch {
-        emailSent = false;
+      } catch (error) {
+        emailError = getErrorMessage(error);
+        console.error("[registrations] Failed to send email:", error);
       }
     }
 
-    return NextResponse.json({ ok: true, id: data?.id, emailSent });
+    return NextResponse.json({ ok: true, id: data?.id, emailSent, emailError });
   } catch (error) {
     return NextResponse.json(
       { error: getRegistrationErrorMessage(error) },

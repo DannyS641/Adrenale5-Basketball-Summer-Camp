@@ -621,8 +621,8 @@ export default function Home() {
             <p className="text-white/70">Templar Global/Adrenale 5</p>
             <p className="text-white/70">Paul Oronsaye</p>
             <p className="text-white/70">
-              <a href="mailto:oyemwenseoronsaye@gmail.com">
-                oyemwenseoronsaye@gmail.com
+              <a href="mailto:pauladrenale5@gmail.com">
+                pauladrenale5@gmail.com
               </a>
             </p>
             <p className="text-white/70">
