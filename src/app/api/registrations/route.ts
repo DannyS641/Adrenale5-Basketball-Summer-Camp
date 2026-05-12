@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 
 const TABLE_NAME = "camp_registrations";
 // const CAMP_PRICE = "$15,000";
-const CAMP_DATES = "July 10-29, 2026";
+const CAMP_DATES = "July 10-19, 2026";
 const CAMP_LOCATION = "Los Angeles, California";
 const CAMP_HOURS = "8:30am - 6:00pm daily";
 const CONTACT_EMAIL = "pauladrenale5@gmail.com";
