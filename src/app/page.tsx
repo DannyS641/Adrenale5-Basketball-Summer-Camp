@@ -635,8 +635,21 @@ export default function Home() {
             <p className="text-sm uppercase tracking-[0.3em] text-citrus">
               Location
             </p>
+            <p className="pt-2 text-sm uppercase tracking-[0.3em] text-citrus">
+              California
+            </p>
             <p className="text-white/70">611 Wilshere Boulevard</p>
             <p className="text-white/70">Los Angeles, CA 90035</p>
+            <p className="pt-2 text-sm uppercase tracking-[0.3em] text-citrus">
+              Lagos
+            </p>
+            <p className="text-white/70">
+              Dolphins Basketball Court,
+              <br />
+              Punch Estate, Idi Mongoro,
+              <br />
+              Ikeja, Lagos.
+            </p>
           </div>
         </div>
       </footer>
